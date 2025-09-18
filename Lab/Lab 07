@@ -1,1 +1,85 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
+// ฟังก์ชันสำหรับจัดการการเล่นเกมในแต่ละรอบ
+void playGame() {
+    int score = 100;
+    int winning_number = rand() % 100 + 1;
+    int guess = 0; // กำหนดค่าเริ่มต้นที่ไม่ใช่คำตอบ
+    int lower_bound = 1;
+    int upper_bound = 100;
+
+    printf("\n(Score=%d)\n\n", score);
+
+    // วนลูปจนกว่าผู้เล่นจะทายถูก
+    while (guess != winning_number) {
+        printf("Guess the winning number (%d-%d) :\n", lower_bound, upper_bound);
+
+        // ตรวจสอบว่ารับค่าเป็นตัวเลขหรือไม่
+        if (scanf("%d", &guess) != 1) {
+            printf("\nInvalid input. Please enter a number only.\n\n");
+            // ล้างค่าใน input buffer เพื่อป้องกันการวนลูปไม่สิ้นสุด
+            while (getchar() != '\n');
+            continue; // ข้ามไปรอบถัดไป
+        }
+
+        // หากทายถูก จะออกจากลูปทันที
+        if (guess == winning_number) {
+            break;
+        }
+
+        // หากทายผิด
+        score -= 10; // ลดคะแนน
+
+        if (guess > winning_number) {
+            printf("\nSorry, the winning number is LOWER than %d. (Score=%d)\n\n", guess, score);
+            // อัปเดตขอบเขตบนให้แคบลง
+            if (guess - 1 < upper_bound) {
+                upper_bound = guess - 1;
+            }
+        } else { // (guess < winning_number)
+            printf("\nSorry, the winning number is HIGHER than %d. (Score=%d)\n\n", guess, score);
+            // อัปเดตขอบเขตล่างให้แคบลง
+            if (guess + 1 > lower_bound) {
+                lower_bound = guess + 1;
+            }
+        }
+    }
+
+    // เมื่อทายถูก (ออกจากลูปแล้ว)
+    printf("\nThat is correct! The winning number is %d.\n\n", winning_number);
+    printf("Score this game: %d\n\n", score);
+}
+
+int main() {
+    // สุ่มตัวเลขโดยใช้เวลาปัจจุบันเป็น seed เพื่อให้ค่าที่สุ่มเปลี่ยนไปทุกครั้งที่รันโปรแกรม
+    srand(time(NULL));
+    int user_choice;
+
+    // วนลูปหลักของโปรแกรมเพื่อถามว่าจะเล่นเกมหรือไม่
+    while (1) {
+        printf("Do you want to play game (1=play,-1=exit) :\n");
+
+        int scan_result = scanf("%d", &user_choice);
+
+        // ตรวจสอบ Input ที่ไม่ถูกต้อง (ไม่ใช่ตัวเลข)
+        if (scan_result != 1) {
+            printf("\nPlease enter only 1 or -1.\n\n");
+            // ล้างค่าใน input buffer
+            while (getchar() != '\n');
+            continue;
+        }
+
+        if (user_choice == 1) {
+            playGame(); // เรียกฟังก์ชันเล่นเกม
+        } else if (user_choice == -1) {
+            printf("\nSee you again.\n");
+            break; // ออกจากโปรแกรม
+        } else {
+            printf("\nPlease enter only 1 or -1.\n\n");
+        }
+    }
+
+    return 0;
+}
