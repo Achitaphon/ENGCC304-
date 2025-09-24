@@ -1,1 +1,43 @@
+#include <stdio.h>
 
+/**
+ * @brief ฟังก์ชันสำหรับสลับค่าของตัวแปร 2 ตัวผ่าน Pointer
+ * การนิยามฟังก์ชันไว้ก่อน main ทำให้ไม่จำเป็นต้องมี Function Prototype
+ * @param p1 Pointer ที่ชี้ไปยังตัวแปรตัวที่ 1
+ * @param p2 Pointer ที่ชี้ไปยังตัวแปรตัวที่ 2
+ */
+void swapNumbers(int *p1, int *p2) {
+    // ใช้เทคนิค XOR Swap เพื่อสลับค่าโดยไม่ใช้ตัวแปรพัก
+    *p1 = *p1 ^ *p2;
+    *p2 = *p1 ^ *p2;
+    *p1 = *p1 ^ *p2;
+}
+
+int main() {
+    // 1. ประกาศตัวแปร num1 และ num2
+    int num1, num2;
+
+    // 2. ประกาศตัวแปร Pointer
+    int *ptr1, *ptr2;
+
+    // รับค่าจากผู้ใช้
+    printf("Enter num1 : \n");
+    scanf("%d", &num1);
+    printf("Enter num2 : \n");
+    scanf("%d", &num2);
+
+    // กำหนดให้ Pointer ชี้ไปยังที่อยู่ของตัวแปร
+    ptr1 = &num1;
+    ptr2 = &num2;
+
+    // แสดงผลลัพธ์ก่อนการสลับค่า
+    printf("Before swap (num1 & num2) : %d, %d\n", num1, num2);
+
+    // เรียกใช้งานฟังก์ชัน swapNumbers
+    swapNumbers(ptr1, ptr2);
+
+    // แสดงผลลัพธ์หลังการสลับค่า
+    printf("After swap (num1 & num2) : %d, %d\n", num1, num2);
+
+    return 0;
+}
