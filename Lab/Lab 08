@@ -1,1 +1,47 @@
+#include <stdio.h>
+
+int main() {
+    int position, years, projects;
+    int baseSalary[3] = {20000, 35000, 50000}; // เงินเดือนตามตำแหน่ง: 1=Junior, 2=Mid, 3=Senior
+    int salary;
+    float expBonus = 0, specialBonus = 0, netSalary = 0;
+
+    // รับข้อมูลจากผู้ใช้
+    printf("Enter Position (1=Junior, 2=Mid-Level, 3=Senior): ");
+    scanf("%d", &position);
+    printf("Enter Years of Experience: ");
+    scanf("%d", &years);
+    printf("Enter Number of Projects Completed this Year: ");
+    scanf("%d", &projects);
+
+    // เงินเดือนพื้นฐาน
+    salary = baseSalary[position - 1];
+
+    // โบนัสตามอายุงาน
+    if (years < 1) {
+        expBonus = 0;
+    } else if (years >= 1 && years <= 3) {
+        expBonus = salary * 0.10;
+    } else if (years >= 4 && years <= 5) {
+        expBonus = salary * 0.15;
+    } else if (years > 5) {
+        expBonus = salary * 0.20;
+    }
+
+    // โบนัสพิเศษถ้าทำโปรเจค > 5
+    if (projects > 5) {
+        specialBonus = salary * 0.05;
+    }
+
+    // คำนวณเงินเดือนสุทธิ
+    netSalary = salary + expBonus + specialBonus;
+
+    // แสดงผล
+    printf("\nBase Salary: %d THB", salary);
+    printf("\nExperience Bonus: %.0f THB", expBonus);
+    printf("\nSpecial Bonus: %.0f THB", specialBonus);
+    printf("\nNet Salary: %.0f THB\n", netSalary);
+
+    return 0;
+}
 
