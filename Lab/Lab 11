@@ -1,1 +1,45 @@
+#include <stdio.h>
+#include <math.h>
+
+// ฟังก์ชันตรวจสอบว่าเป็น Armstrong number หรือไม่
+int isArmstrong(int num) {
+    int original = num;
+    int sum = 0, digit;
+    int n = 0, temp;
+
+    // หาจำนวนหลักของตัวเลข
+    temp = num;
+    while (temp > 0) {
+        n++;
+        temp /= 10;
+    }
+
+    // คำนวณผลรวมของแต่ละหลักยกกำลัง n
+    temp = num;
+    while (temp > 0) {
+        digit = temp % 10;
+        sum += pow(digit, n);
+        temp /= 10;
+    }
+
+    // คืนค่า 1 ถ้าเป็น Armstrong, 0 ถ้าไม่ใช่
+    return (sum == original);
+}
+
+int main() {
+    int num;
+
+    // รับค่าจากผู้ใช้
+    printf("Enter Number:\n");
+    scanf("%d", &num);
+
+    // แสดงผลลัพธ์
+    if (isArmstrong(num)) {
+        printf("Pass.\n");
+    } else {
+        printf("Not Pass.\n");
+    }
+
+    return 0;
+}
 
