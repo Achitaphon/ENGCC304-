@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+void swapNumbers(int *a, int *b) {
+    if (a == b) return;      // กรณีชี้ตำแหน่งเดียวกัน
+    if (*a != *b) {          // สลับค่าแบบไม่ใช้ตัวแปรพัก (XOR swap)
+        *a ^= *b;
+        *b ^= *a;
+        *a ^= *b;
+    }
+}
+
+int main(void) {
+    int num1, num2;
+    int *ptr1, *ptr2;
+
+    printf("Enter num1 :\n");
+    if (scanf("%d", &num1) != 1) return 0;
+
+    printf("Enter num2 :\n");
+    if (scanf("%d", &num2) != 1) return 0;
+
+    ptr1 = &num1;
+    ptr2 = &num2;
+
+    printf("Before swap (num1 & num2) : %d, %d\n", num1, num2);
+
+    swapNumbers(ptr1, ptr2);
+
+    printf("After swap (num1 & num2) : %d, %d\n", num1, num2);
+    return 0;
+}
