@@ -1,0 +1,45 @@
+#include <stdio.h>
+
+int main(void) {
+    int a[] = {15, 7, 25, 3, 73, 32, 45};
+    int n = sizeof(a) / sizeof(a[0]);
+
+    // แสดงข้อมูลก่อนเรียง
+    printf("Old Series : ");
+    for (int i = 0; i < n; ++i) {
+        if (i) printf(", ");
+        printf("%d", a[i]);
+    }
+    printf("\n");
+
+    // เรียงจากน้อยไปมาก (Bubble Sort)
+    for (int pass = 0; pass < n - 1; ++pass) {
+        for (int j = 0; j < n - 1 - pass; ++j) {
+            if (a[j] > a[j + 1]) {
+                int tmp = a[j];
+                a[j] = a[j + 1];
+                a[j + 1] = tmp;
+            }
+        }
+    }
+
+    // แสดงข้อมูลหลังเรียง
+    printf("New Series : ");
+    for (int i = 0; i < n; ++i) {
+        if (i) printf(", ");
+        printf("%d", a[i]);
+    }
+    printf("\n");
+
+    // ตำแหน่งของเลข 32 หลังเรียง (เริ่มนับจาก 0)
+    int pos = -1;
+    for (int i = 0; i < n; ++i) {
+        if (a[i] == 32) {
+            pos = i;
+            break;
+        }
+    }
+
+    printf("Pos of 32 : %d\n", pos);
+    return 0;
+}
