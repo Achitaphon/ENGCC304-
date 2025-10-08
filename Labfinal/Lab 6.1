@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <string.h>
+
+static void number_to_words_0_99(int n, char out[], size_t sz) {
+    static const char *units[] = {
+        "zero", "one", "two", "three", "four",
+        "five", "six", "seven", "eight", "nine",
+        "ten", "eleven", "twelve", "thirteen", "fourteen",
+        "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"
+    };
+
+    static const char *tens[] = {
+        "", "", "twenty", "thirty", "forty",
+        "fifty", "sixty", "seventy", "eighty", "ninety"
+    };
+
+    if (sz == 0) return;
+
+    if (n < 0 || n > 99) {
+        snprintf(out, sz, "(out of range)");
+        return;
+    }
+
+    if (n < 20) {
+        snprintf(out, sz, "%s", units[n]);
+    } else {
+        int t = n / 10;
+        int u = n % 10;
+        if (u == 0) {
+            snprintf(out, sz, "%s", tens[t]);
+        } else {
+            snprintf(out, sz, "%s %s", tens[t], units[u]);
+        }
+    }
+}
+
+int main(void) {
+    int n;
+    char words[64];
+
+    printf("User Input :");
+    if (scanf("%d", &n) != 1) return 0;
+
+    number_to_words_0_99(n, words, sizeof(words));
+    printf("Result : %s\n", words);
+
+    return 0;
+}
