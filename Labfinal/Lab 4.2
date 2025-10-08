@@ -1,1 +1,25 @@
+#include <stdio.h>
+
+int main(void) {
+    char   empId[11];  // สูงสุด 10 ตัวอักษร + '\0'
+    int    hours;      // จำนวนชั่วโมงที่ทำงาน
+    double rate;       // รายได้ต่อชั่วโมง
+    double salary;     // รายได้รวม
+
+    printf("Input the Employees ID(Max. 10 chars):\n");
+    if (scanf("%10s", empId) != 1) return 0;
+
+    printf("Input the working hrs:\n");
+    if (scanf("%d", &hours) != 1) return 0;
+
+    printf("Salary amount/hr:\n");
+    if (scanf("%lf", &rate) != 1) return 0;
+
+    salary = hours * rate;
+
+    printf("Employees ID = %s\n", empId);
+    printf("Salary = U$ %.2f\n", salary);
+
+    return 0;
+}
 
