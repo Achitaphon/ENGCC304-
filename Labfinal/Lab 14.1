@@ -1,0 +1,70 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <limits.h>
+
+int find_min(const int *a, int n) {
+    int m = INT_MAX;
+    for (int i = 0; i < n; ++i) {
+        if (a[i] < m) m = a[i];
+    }
+    return m;
+}
+
+int find_max(const int *a, int n) {
+    int m = INT_MIN;
+    for (int i = 0; i < n; ++i) {
+        if (a[i] > m) m = a[i];
+    }
+    return m;
+}
+
+int main(void) {
+    char line[4096];
+    int  arr[1024];
+    int  n = 0;
+
+    printf("Enter value:\n");
+    if (!fgets(line, sizeof(line), stdin)) return 0;
+
+    size_t L = strlen(line);
+    if (L && line[L - 1] == '\n') line[L - 1] = '\0';
+
+    char *p = line, *endp;
+    while (*p != '\0') {
+        while (*p == ' ' || *p == '\t') ++p;
+        if (*p == '\0') break;
+
+        long v = strtol(p, &endp, 10);
+        if (p == endp) break;
+
+        if (n < (int)(sizeof(arr) / sizeof(arr[0]))) {
+            arr[n++] = (int)v;
+        }
+        p = endp;
+    }
+
+    if (n == 0) return 0;
+
+    printf("Index: ");
+    for (int i = 0; i < n; ++i) {
+        if (i) printf(" ");
+        printf("%d", i);
+    }
+    printf("\n");
+
+    printf("Array: ");
+    for (int i = 0; i < n; ++i) {
+        if (i) printf(" ");
+        printf("%d", arr[i]);
+    }
+    printf("\n\n");
+
+    int mn = find_min(arr, n);
+    int mx = find_max(arr, n);
+
+    printf("Min : %d\n", mn);
+    printf("Max : %d\n", mx);
+
+    return 0;
+}
