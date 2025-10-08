@@ -1,39 +1,42 @@
 #include <stdio.h>
+#include <ctype.h>
 
-int main() {
-    FILE *fp;
-    char filename[50];
-    char ch;
-    int count = 0;
+int count_words_in_file(const char *filename) {
+    FILE *fp = fopen(filename, "r");
+    if (!fp) return -1;
 
-    // รับชื่อไฟล์จากผู้ใช้
-    printf("Enter file name: ");
-    scanf("%s", filename);
+    int c, in_word = 0, count = 0;
 
-    // เปิดไฟล์ในโหมดอ่าน
-    fp = fopen(filename, "r");
-    if (fp == NULL) {
+    while ((c = fgetc(fp)) != EOF) {
+        if (isspace((unsigned char)c)) {
+            in_word = 0;          // ออกจากสถานะอยู่ในคำ เมื่อเจอช่องว่าง/ขึ้นบรรทัด/แท็บ
+        } else {
+            if (!in_word) {       // เข้าสู่คำใหม่ (ขอบคำ)
+                count++;
+                in_word = 1;
+            }
+        }
+    }
+
+    fclose(fp);
+    return count;
+}
+
+int main(void) {
+    char filename[256];
+
+    printf("Enter file name:\n");
+    if (scanf("%255s", filename) != 1) {
+        fprintf(stderr, "Invalid input.\n");
+        return 1;
+    }
+
+    int total = count_words_in_file(filename);
+    if (total < 0) {
         printf("Cannot open file.\n");
         return 0;
     }
 
-    // อ่านข้อมูลจากไฟล์ทีละตัวอักษร
-    while ((ch = fgetc(fp)) != EOF) {
-        // ถ้าเจอช่องว่าง หรือขึ้นบรรทัดใหม่ ให้นับเป็น 1 คำ
-        if (ch == ' ' || ch == '\n' || ch == '\t') {
-            count++;
-        }
-    }
-
-    // ปิดไฟล์
-    fclose(fp);
-
-    // แสดงผลจำนวนคำทั้งหมด (บวก 1 สำหรับคำสุดท้าย)
-    printf("\nTotal number of words in '%s' : %d words\n", filename, count + 1);
-
-    // แสดงข้อความจบการทำงาน
-    printf("Program Finished Successfully.\n");
-
+    printf("Total number of words in '%s' : %d words\n", filename, total);
     return 0;
 }
-
