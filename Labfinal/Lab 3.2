@@ -1,1 +1,59 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+/* คืน 1 ถ้าเป็นจำนวนเฉพาะ, คืน 0 ถ้าไม่ใช่ */
+static int is_prime(int num) {
+    if (num < 2) return 0;
+    if ((num & 1) == 0) return num == 2;  /* คู่ทั้งหมดไม่ใช่ ยกเว้น 2 */
+    for (int i = 3; i <= num / i; i += 2) {
+        if (num % i == 0) return 0;
+    }
+    return 1;
+}
+
+int main(void) {
+    int n;
+
+    printf("Enter N : ");
+    if (scanf("%d", &n) != 1 || n <= 0) {
+        fprintf(stderr, "Invalid N (must be positive integer).\n");
+        return 1;
+    }
+
+    int *arr = (int *)malloc(sizeof(int) * (size_t)n);
+    if (!arr) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        return 1;
+    }
+
+    for (int i = 0; i < n; i++) {
+        printf("Enter value[%d] : ", i);
+        if (scanf("%d", &arr[i]) != 1) {
+            fprintf(stderr, "Invalid input at index %d.\n", i);
+            free(arr);
+            return 1;
+        }
+    }
+
+    /* แสดงหัวตาราง index */
+    printf("Index: ");
+    for (int i = 0; i < n; i++) {
+        printf("%4d", i);
+    }
+    printf("\n");
+
+    /* แสดงค่าที่เป็นจำนวนเฉพาะ ที่ไม่ใช่ให้แสดง '#' */
+    printf("Array: ");
+    for (int i = 0; i < n; i++) {
+        if (is_prime(arr[i])) {
+            printf("%4d", arr[i]);
+        } else {
+            printf("%4s", "#");
+        }
+    }
+    printf("\n");
+
+    free(arr);
+    return 0;
+}
 
