@@ -1,0 +1,44 @@
+#include <stdio.h>
+
+long long intPow(int base, int exp) {
+    long long result = 1;
+    for (int i = 0; i < exp; ++i) result *= base;
+    return result;
+}
+
+int isArmstrong(long long n) {
+    if (n < 0) return 0;
+    if (n == 0) return 1;
+
+    long long temp = n;
+    int digits = 0;
+    while (temp > 0) {
+        ++digits;
+        temp /= 10;
+    }
+
+    temp = n;
+    long long sum = 0;
+    while (temp > 0) {
+        int d = (int)(temp % 10);
+        sum += intPow(d, digits);
+        temp /= 10;
+    }
+
+    return sum == n;
+}
+
+int main(void) {
+    long long x;
+
+    printf("Enter Number:\n");
+    if (scanf("%lld", &x) != 1) return 0;
+
+    if (isArmstrong(x)) {
+        printf("Pass.\n");
+    } else {
+        printf("Not Pass.\n");
+    }
+
+    return 0;
+}
