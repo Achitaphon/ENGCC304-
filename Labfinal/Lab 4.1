@@ -1,1 +1,22 @@
+#include <stdio.h>
+
+#define SECONDS_PER_DAY 86400LL  // 24 * 60 * 60
+
+int main(void) {
+    long long days;
+
+    printf("Input Days : ");
+    if (scanf("%lld", &days) != 1) {
+        fprintf(stderr, "Invalid input.\n");
+        return 1;
+    }
+    if (days < 0) {
+        fprintf(stderr, "Days cannot be negative.\n");
+        return 1;
+    }
+
+    long long total_seconds = days * SECONDS_PER_DAY;
+    printf("%lld days = %lld seconds\n", days, total_seconds);
+    return 0;
+}
 
