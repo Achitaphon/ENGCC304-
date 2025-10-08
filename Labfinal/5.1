@@ -1,0 +1,85 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+
+#define ID_MAX_LEN 10
+
+/* แปลงจำนวนเงิน (หน่วยย่อย = เซนต์) ให้เป็นสตริงรูปแบบ 1,234,567.89 */
+static void format_money_from_cents(long long cents, char out[], size_t out_sz) {
+    if (out_sz == 0) return;
+
+    long long abs_cents = (cents < 0) ? -cents : cents;
+    long long int_part = abs_cents / 100;
+    int frac = (int)(abs_cents % 100);
+
+    /* สร้างสตริงของจำนวนเต็มโดยใส่ comma */
+    char buf[64];
+    int i = 0;
+    int digits = 0;
+
+    if (int_part == 0) {
+        buf[i++] = '0';
+    } else {
+        while (int_part > 0 && i < (int)sizeof(buf) - 1) {
+            if (digits == 3) {          // ครบสามหลัก ใส่เครื่องหมายคอมมา
+                buf[i++] = ',';
+                digits = 0;
+            }
+            buf[i++] = (char)('0' + (int)(int_part % 10));
+            int_part /= 10;
+            digits++;
+        }
+    }
+
+    /* ตอนนี้ buf เก็บตัวเลขกลับด้าน + comma ให้กลับลำดับใหม่ */
+    buf[i] = '\0';
+    int len = i;
+    char rev[64];
+    for (int j = 0; j < len; ++j) {
+        rev[j] = buf[len - 1 - j];
+    }
+    rev[len] = '\0';
+
+    /* เขียนลง out: เครื่องหมายลบ (ถ้ามี) + ส่วนจำนวนเต็ม + ทศนิยมสองตำแหน่ง */
+    if (cents < 0) {
+        snprintf(out, out_sz, "-%s.%02d", rev, frac);
+    } else {
+        snprintf(out, out_sz, "%s.%02d", rev, frac);
+    }
+}
+
+int main(void) {
+    char empId[ID_MAX_LEN + 1];   // +1 เผื่อ '\0'
+    int hours = 0;
+    double rate = 0.0;
+
+    printf("Input the Employees ID(Max. 10 chars): ");
+    if (scanf("%10s", empId) != 1) {
+        fprintf(stderr, "Invalid employee ID input.\n");
+        return 1;
+    }
+
+    printf("Input the working hrs: ");
+    if (scanf("%d", &hours) != 1) {
+        fprintf(stderr, "Invalid working hours input.\n");
+        return 1;
+    }
+
+    printf("Salary amount/hr: ");
+    if (scanf("%lf", &rate) != 1) {
+        fprintf(stderr, "Invalid hourly rate input.\n");
+        return 1;
+    }
+
+    /* คำนวณเงินเดือนรวมด้วยความแม่นยำระดับเซนต์ เพื่อลด error ของทศนิยม */
+    double salary = (double)hours * rate;
+    long long cents = llround(salary * 100.0);
+
+    char money[80];
+    format_money_from_cents(cents, money, sizeof(money));
+
+    printf("Employees ID = %s\n", empId);
+    printf("Salary = U$ %s\n", money);
+
+    return 0;
+}
