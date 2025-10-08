@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main(void) {
+    srand((unsigned)time(NULL));
+
+    for (;;) {
+        int cmd;
+
+        printf("Do you want to play game (1=play,-1=exit) :\n");
+        if (scanf("%d", &cmd) != 1) return 0;
+
+        if (cmd == -1) {
+            printf("\nSee you again.\n");
+            break;
+        }
+        if (cmd != 1) {
+            continue;
+        }
+
+        int target = rand() % 100 + 1;  // 1..100
+        int score  = 100;
+        int low    = 1;
+        int high   = 100;
+
+        printf("(Score=100)\n\n");
+
+        for (;;) {
+            int guess;
+
+            printf("Guess the winning number (%d-%d) :\n", low, high);
+            if (scanf("%d", &guess) != 1) return 0;
+
+            if (guess == target) {
+                printf("\nThat is correct! The winning number is %d.\n\n", target);
+                printf("Score this game: %d\n\n", score);
+                break;
+            }
+
+            score -= 10;
+            if (score < 0) score = 0;
+
+            if (guess < target) {
+                printf("\nSorry, the winning number is HIGHER than %d. (Score=%d)\n\n", guess, score);
+                if (guess + 1 > low) low = guess + 1;
+                if (low > high) low = high;
+            } else {
+                printf("\nSorry, the winning number is LOWER than %d. (Score=%d)\n\n", guess, score);
+                if (guess - 1 < high) high = guess - 1;
+                if (high < low) high = low;
+            }
+        }
+    }
+
+    return 0;
+}
