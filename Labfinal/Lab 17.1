@@ -1,0 +1,105 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_BOOKS   100
+#define TITLE_MAX   128
+#define AUTHOR_MAX  128
+
+typedef struct {
+    int  id;                       // Book ID
+    char title[TITLE_MAX];         // Title
+    char author[AUTHOR_MAX];       // Author
+    int  year;                     // Year
+} Book;
+
+/* ตามข้อกำหนด */
+void addBook(Book books[], int *count);
+void searchBook(Book books[], int count, char title[]);
+void displayBooks(Book books[], int count);
+
+/* ฟังก์ชันช่วยอ่านบรรทัดและตัด '\n' */
+static void read_line(char *buf, size_t sz) {
+    if (fgets(buf, (int)sz, stdin)) {
+        size_t n = strlen(buf);
+        if (n && buf[n - 1] == '\n') buf[n - 1] = '\0';
+    } else {
+        if (sz) buf[0] = '\0';
+    }
+}
+
+int main(void) {
+    Book books[MAX_BOOKS];
+    int  count = 0;
+
+    for (;;) {
+        int opt;
+        printf("Choose an option: ");
+        if (scanf("%d", &opt) != 1) return 0;
+        getchar(); /* กำจัด '\n' หลังตัวเลขเมนู */
+
+        if (opt == 1) {                         /* เพิ่มหนังสือใหม่ */
+            addBook(books, &count);
+        } else if (opt == 2) {                  /* ค้นหาตามชื่อ */
+            char key[TITLE_MAX];
+            printf("Enter Title to Search: ");
+            read_line(key, sizeof(key));
+            searchBook(books, count, key);
+        } else if (opt == 3) {                  /* แสดงทั้งหมด */
+            displayBooks(books, count);
+        } else if (opt == 0 || opt == 4) {      /* ออกจากโปรแกรม */
+            break;
+        }
+    }
+    return 0;
+}
+
+void addBook(Book books[], int *count) {
+    if (*count >= MAX_BOOKS) {
+        /* พื้นที่เต็ม (ไม่ได้กำหนดในโจทย์ แต่ป้องกันไว้) */
+        return;
+    }
+
+    Book b;
+
+    printf("Enter Book ID: ");
+    if (scanf("%d", &b.id) != 1) return;
+    getchar(); /* กิน '\n' */
+
+    printf("Enter Title: ");
+    read_line(b.title, sizeof(b.title));
+
+    printf("Enter Author: ");
+    read_line(b.author, sizeof(b.author));
+
+    printf("Enter Year: ");
+    if (scanf("%d", &b.year) != 1) return;
+    getchar();
+
+    books[*count] = b;
+    (*count)++;
+
+    printf("Book added successfully!\n");
+}
+
+void searchBook(Book books[], int count, char title[]) {
+    for (int i = 0; i < count; ++i) {
+        if (strcmp(books[i].title, title) == 0) {
+            printf("Book ID: %d\n", books[i].id);
+            printf("Title: %s\n", books[i].title);
+            printf("Author: %s\n", books[i].author);
+            printf("Year: %d\n", books[i].year);
+            return;
+        }
+    }
+    printf("Book not found.\n");
+}
+
+void displayBooks(Book books[], int count) {
+    for (int i = 0; i < count; ++i) {
+        printf("Book ID: %d\n", books[i].id);
+        printf("Title: %s\n", books[i].title);
+        printf("Author: %s\n", books[i].author);
+        printf("Year: %d\n", books[i].year);
+        if (i != count - 1) printf("\n");
+    }
+}
