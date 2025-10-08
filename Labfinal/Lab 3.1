@@ -1,1 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+/* อ่านตัวเลขตัวแรกที่พบจากหนึ่งบรรทัด
+   เช่น "H = 6" -> 6, "W=5" -> 5, "3" -> 3  */
+static int read_number_from_line(double *out_value) {
+    char line[256];
+    if (!fgets(line, sizeof(line), stdin)) return 0;
+
+    // เลื่อนไปจนเจออักขระที่เริ่มเป็นตัวเลขได้
+    char *p = line;
+    while (*p && !isdigit((unsigned char)*p) && *p != '+' && *p != '-' && *p != '.') {
+        p++;
+    }
+    if (!*p) return 0;                 // ไม่พบเลขในบรรทัดนี้
+
+    *out_value = strtod(p, NULL);      // แปลงเป็น double
+    return 1;
+}
+
+int main(void) {
+    double H = 0.0, W = 0.0;
+
+    // รับส่วนสูง (H)
+    if (!read_number_from_line(&H)) {
+        fprintf(stderr, "Invalid input for H.\n");
+        return 1;
+    }
+
+    // รับฐาน (W)
+    if (!read_number_from_line(&W)) {
+        fprintf(stderr, "Invalid input for W.\n");
+        return 1;
+    }
+
+    // คำนวณพื้นที่สามเหลี่ยม
+    double area = (H * W) / 2.0;
+
+    // แสดงผลตามรูปแบบโจทย์
+    printf("Area = %.1f\n", area);
+    return 0;
+}
 
