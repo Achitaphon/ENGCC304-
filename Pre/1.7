@@ -1,0 +1,47 @@
+#include <stdio.h>
+
+int main(void)
+{
+    int customerType;
+    float consumption_kWh;
+    float totalBill = 0.0f;
+    float rate;
+
+    if (scanf("%d %f", &customerType, &consumption_kWh) != 2)
+    {
+        return 1;
+    }
+
+    if (customerType == 1)
+    {
+        if (consumption_kWh <= 100.0f)
+        {
+            rate = 3.0f;
+        }
+        else
+        {
+            rate = 4.0f;
+        }
+    }
+    else if (customerType == 2)
+    {
+        if (consumption_kWh <= 500.0f)
+        {
+            rate = 5.0f;
+        }
+        else
+        {
+            rate = 6.5f;
+        }
+    }
+    else
+    {
+        printf("Invalid Customer Type");
+        return 0;
+    }
+
+    totalBill = consumption_kWh * rate;
+    printf("%.2f\n", totalBill);
+
+    return 0;
+}
