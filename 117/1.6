@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int *GetMatrix(int *row, int *col);
+
+int main(void)
+{
+    int *data;
+    int m, n;
+    int i, j;
+
+    data = GetMatrix(&m, &n);
+
+    printf("m = %d, n = %d\n", m, n);
+
+    for (i = 0; i < m; i++)
+    {
+        for (j = 0; j < n; j++)
+        {
+            printf("%d ", data[i * n + j]);
+        }
+        printf("\n");
+    }
+
+    free(data);
+    return 0;
+}
+
+int *GetMatrix(int *row, int *col)
+{
+    int *mat;
+    int i, j;
+
+    scanf("%d %d", row, col);
+
+    mat = (int *)malloc((*row) * (*col) * sizeof(int));
+    if (mat == NULL)
+    {
+        exit(1);
+    }
+
+    for (i = 0; i < *row; i++)
+    {
+        for (j = 0; j < *col; j++)
+        {
+            scanf("%d", &mat[i * (*col) + j]);
+        }
+    }
+
+    return mat;
+}
