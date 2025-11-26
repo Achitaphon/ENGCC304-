@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void GetSet(int **data, int *num);
+
+int main(void)
+{
+    int *data;
+    int num;
+
+    GetSet(&data, &num);
+
+    /* ทดสอบแสดงผล */
+    printf("\nnum = %d\n", num);
+    for (int i = 0; i < num; i++)
+        printf("data[%d] = %d\n", i, data[i]);
+
+    free(data);
+    return 0;
+}
+
+void GetSet(int **data, int *num)
+{
+    int i;
+
+    printf("Enter number of elements: ");
+    scanf("%d", num);
+
+    *data = (int *)malloc((*num) * sizeof(int));
+    if (*data == NULL)
+        return;
+
+    for (i = 0; i < *num; i++)
+    {
+        printf("data[%d] = ", i);
+        scanf("%d", &(*data)[i]);
+    }
+}
