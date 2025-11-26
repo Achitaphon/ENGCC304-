@@ -1,0 +1,44 @@
+#include <stdio.h>
+
+int main(void)
+{
+    int planCode;
+    float dataUsage_GB;
+    float totalBill = 0.0f;
+
+    if (scanf("%d %f", &planCode, &dataUsage_GB) != 2)
+    {
+        return 1;
+    }
+
+    if (planCode == 1)
+    {
+        if (dataUsage_GB <= 10.0f)
+        {
+            totalBill = 299.0f;
+        }
+        else
+        {
+            totalBill = 299.0f + 10.0f * (dataUsage_GB - 10.0f);
+        }
+        printf("%.2f\n", totalBill);
+    }
+    else if (planCode == 2)
+    {
+        if (dataUsage_GB <= 20.0f)
+        {
+            totalBill = 599.0f;
+        }
+        else
+        {
+            totalBill = 599.0f + 5.0f * (dataUsage_GB - 20.0f);
+        }
+        printf("%.2f\n", totalBill);
+    }
+    else
+    {
+        printf("Invalid Plan Code");
+    }
+
+    return 0;
+}
