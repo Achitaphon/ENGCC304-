@@ -3,13 +3,13 @@
 int main(void)
 {
     int number;
-    int evenSum = 0;
-    int oddSum = 0;
+    int evenSum;
+    int oddSum;
 
-    if (scanf("%d", &number) != 1)
-    {
-        return 1;
-    }
+    evenSum = 0;
+    oddSum = 0;
+
+    scanf("%d", &number);
 
     while (number != 0)
     {
@@ -22,10 +22,7 @@ int main(void)
             oddSum = oddSum + number;
         }
 
-        if (scanf("%d", &number) != 1)
-        {
-            break;
-        }
+        scanf("%d", &number);
     }
 
     printf("Even Sum: %d\n", evenSum);
