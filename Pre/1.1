@@ -1,12 +1,13 @@
 #include <stdio.h>
 
-int main(void)
-{
+int main() {
     int N, i;
 
     if (scanf("%d", &N) != 1) {
-        return 1;
+        return 1;   /* อ่านค่าไม่ได้ ให้จบโปรแกรม */
     }
+
+    /* ตรงนี้คือส่วนที่เราต้องเขียนเพิ่ม */
 
     if (N <= 0) {
         printf("Error\n");
@@ -18,4 +19,3 @@ int main(void)
 
     return 0;
 }
-
