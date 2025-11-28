@@ -1,20 +1,20 @@
 #include <stdio.h>
 
-int main() {
-    int N, i;
+int main(void) {
+    int n;
+    int count = 0;
 
-    if (scanf("%d", &N) != 1) {
-        return 1;   /* อ่านค่าไม่ได้ ให้จบโปรแกรม */
+    if (scanf("%d", &n) != 1) {
+        return 1;
     }
 
-    /* ตรงนี้คือส่วนที่เราต้องเขียนเพิ่ม */
-
-    if (N <= 0) {
-        printf("Error\n");
-    } else {
-        for (i = 0; i < N; i++) {
+    if (n > 0) {
+        while (count < n) {
             printf("Hello Loop!\n");
+            count++;
         }
+    } else {
+        printf("Error\n");
     }
 
     return 0;
