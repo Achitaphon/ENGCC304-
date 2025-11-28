@@ -1,15 +1,15 @@
 #include <stdio.h>
 
-int main(void)
+int main()
 {
     int number;
-    int evenSum;
-    int oddSum;
+    int evenSum = 0;
+    int oddSum = 0;
 
-    evenSum = 0;
-    oddSum = 0;
-
-    scanf("%d", &number);
+    if (scanf("%d", &number) != 1)
+    {
+        return 1;
+    }
 
     while (number != 0)
     {
@@ -22,7 +22,10 @@ int main(void)
             oddSum = oddSum + number;
         }
 
-        scanf("%d", &number);
+        if (scanf("%d", &number) != 1)
+        {
+            break;
+        }
     }
 
     printf("Even Sum: %d\n", evenSum);
