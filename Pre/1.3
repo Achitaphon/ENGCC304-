@@ -1,41 +1,38 @@
 #include <stdio.h>
 
-int main(void) {
-    int num1, num2, operationCode, result;
+int main(void)
+{
+    int num1, num2;
+    int operationCode;
+    int result;
 
-    if (scanf("%d %d %d", &num1, &num2, &operationCode) != 3) {
-        return 1;
+    scanf("%d", &num1);
+    scanf("%d", &num2);
+    scanf("%d", &operationCode);
+
+    if (operationCode == 1)
+    {
+        result = num1 + num2;
+        printf("%d", result);
     }
-
-    /* ส่วนที่ต้องเขียนเพิ่ม */
-    switch (operationCode) {
-        case 1:   /* บวก */
-            result = num1 + num2;
-            printf("%d\n", result);
-            break;
-
-        case 2:   /* ลบ */
-            result = num1 - num2;
-            printf("%d\n", result);
-            break;
-
-        case 3:   /* คูณ */
-            result = num1 * num2;
-            printf("%d\n", result);
-            break;
-
-        case 4:   /* หาร */
-            if (num2 == 0) {
-                printf("Invalid Operation\n");
-            } else {
-                result = num1 / num2;
-                printf("%d\n", result);
-            }
-            break;
-
-        default:  /* ค่าอื่นที่ไม่ใช่ 1-4 */
-            printf("Invalid Operation\n");
-            break;
+    else if (operationCode == 2)
+    {
+        result = num1 - num2;
+        printf("%d", result);
+    }
+    else if (operationCode == 3)
+    {
+        result = num1 * num2;
+        printf("%d", result);
+    }
+    else if (operationCode == 4)
+    {
+        result = num1 / num2;
+        printf("%d", result);
+    }
+    else
+    {
+        printf("Invalid Operation");
     }
 
     return 0;
