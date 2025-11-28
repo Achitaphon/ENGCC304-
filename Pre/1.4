@@ -12,3 +12,26 @@ int main() {
     printf("%d\n", sum);
     return 0;
 }
+#include <stdio.h>
+
+int main(void)
+{
+    int N;
+    int sum;
+    int i;
+
+    sum = 0;
+
+    scanf("%d", &N);
+
+    i = 1;
+    while (i <= N)
+    {
+        sum = sum + i;
+        i = i + 1;
+    }
+
+    printf("%d\n", sum);
+
+    return 0;
+}
