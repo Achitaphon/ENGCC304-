@@ -1,22 +1,17 @@
 #include <stdio.h>
 
-int main()
+int main()  
 {
     int N, sum = 0, i;
 
-    if (scanf("%d", &N) != 1)
-    {
+    if (scanf("%d", &N) != 1) {
         return 1;
     }
-
-    i = 1;
-    while (i <= N)
+    for (i = 1; i <= N; i++) 
     {
         sum = sum + i;
-        i = i + 1;
     }
 
     printf("%d\n", sum);
-
     return 0;
 }
