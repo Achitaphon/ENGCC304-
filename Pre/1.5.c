@@ -1,29 +1,23 @@
 #include <stdio.h>
 
-int main()
-{
+int main() {
     int number;
     int evenSum = 0;
     int oddSum = 0;
 
-    if (scanf("%d", &number) != 1)
-    {
-        return 1;
+    if (scanf("%d", &number) != 1) {
+        return 0;
     }
 
-    while (number != 0)
-    {
-        if (number % 2 == 0)
-        {
+    while (number != 0) {
+
+        if (number % 2 == 0) {
             evenSum = evenSum + number;
-        }
-        else
-        {
+        } else {
             oddSum = oddSum + number;
         }
 
-        if (scanf("%d", &number) != 1)
-        {
+        if (scanf("%d", &number) != 1) {
             break;
         }
     }
