@@ -1,17 +1,18 @@
 #include <stdio.h>
 
-int main()  
-{
-    int N, sum = 0, i;
+int main() {
 
-    if (scanf("%d", &N) != 1) {
+    int limitN;
+    int totalSum = 0;
+
+    if (scanf("%d", &limitN) != 1) {
         return 1;
     }
-    for (i = 1; i <= N; i++) 
-    {
-        sum = sum + i;
+
+    for (int step = 1; step <= limitN; step++) {
+        totalSum += step;
     }
 
-    printf("%d\n", sum);
+    printf("%d\n", totalSum);
     return 0;
 }
