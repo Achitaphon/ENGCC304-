@@ -7,6 +7,11 @@ int main() {
         return 1;
     }
 
+    if (score < 0 || score > 100) {
+        printf("Error\n");
+        return 0;
+    }
+
     if (score >= 80) {
         printf("Grade A\n");
     } else if (score >= 70) {
