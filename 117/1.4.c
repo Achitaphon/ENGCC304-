@@ -3,8 +3,7 @@
 
 int GetSet(int **data);
 
-int main(void)
-{
+int main(void) {
     int *data;
     int num;
 
@@ -14,21 +13,18 @@ int main(void)
     return 0;
 }
 
-int GetSet(int **data)
-{
+int GetSet(int **data) {
     int n;
     int i;
 
     scanf("%d", &n);
 
     *data = (int *)malloc(n * sizeof(int));
-    if (*data == NULL)
-    {
+    if (*data == NULL) {
         exit(1);
     }
 
-    for (i = 0; i < n; i++)
-    {
+    for (i = 0; i < n; i++) {
         scanf("%d", &(*data)[i]);
     }
 
