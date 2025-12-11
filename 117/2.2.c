@@ -1,32 +1,44 @@
 #include <stdio.h>
 
-char* reverse(char str1[]) {
-    static char str2[50];
-    int len = 0;
-    int i;
-
-    while (str1[len] != '\0' && str1[len] != '\n') {
-        len++;
-    }
-
-    for (i = 0; i < len; i++) {
-        str2[i] = str1[len - 1 - i];
-    }
-    str2[len] = '\0';
-
-    return str2;
-}
+void explode(char str1[], char splitter, char str2[][10], int *count);
 
 int main(void) {
-    char text[50];
-    char *out;
+    char out[20][10];
+    int num;
+    int i;
 
-    if (fgets(text, sizeof(text), stdin) == NULL) {
-        return 1;
+    explode("I/Love/You", '/', out, &num);
+
+    printf("count = %d\n", num);
+    for (i = 0; i < num; i++) {
+        printf("str2[%d] = \"%s\"\n", i, out[i]);
     }
 
-    out = reverse(text);
-    printf("%s\n", out);
-
     return 0;
+}
+
+void explode(char str1[], char splitter, char str2[][10], int *count) {
+    int i;
+    int row;
+    int col;
+
+    i = 0;
+    row = 0;
+    col = 0;
+
+    while (str1[i] != '\0') {
+        if (str1[i] == splitter) {
+            str2[row][col] = '\0';
+            row = row + 1;
+            col = 0;
+        } else if (col < 9) {
+            str2[row][col] = str1[i];
+            col = col + 1;
+        }
+
+        i = i + 1;
+    }
+
+    str2[row][col] = '\0';
+    *count = row + 1;
 }
