@@ -1,44 +1,53 @@
 #include <stdio.h>
 
+#define MAX_SALES 1000
+
 struct SalesRecord {
-    char name[50];   
-    float target;   
-    float actual;   
+    char name[50];
+    float target;
+    float actual;
 };
 
-int main(void) {
-    int N, i;
-    float grandTotalCommission = 0.0f;
+int main() {
+    int N;
+    int i;
+    float grandTotalCommission;
+    struct SalesRecord records[MAX_SALES];
 
-    scanf("%d", &N);
+    if (scanf("%d", &N) != 1) {
+        return 1;
+    }
 
-    struct SalesRecord records[N];
+    if (N < 1 || N > MAX_SALES) {
+        return 1;
+    }
+
+    grandTotalCommission = 0.0;
 
     for (i = 0; i < N; i++) {
         float baseCommission;
 
-        scanf("%f %f %s",
-              &records[i].target,
-              &records[i].actual,
-              records[i].name);
-
-        baseCommission = records[i].actual * 0.10f;
-
-        if (records[i].actual >= records[i].target * 1.20f) {
-          
-            baseCommission += 200.0f;     // โบนัส Tier 2
-        } else if (records[i].actual >= records[i].target) {
-           
-            baseCommission += 50.0f;      // โบนัส Tier 1
-        } else if (records[i].actual < records[i].target * 0.90f) {
-            baseCommission -= 100.0f;     // ค่าปรับ
+        if (scanf("%f %f %49s",
+                  &records[i].target,
+                  &records[i].actual,
+                  records[i].name) != 3) {
+            return 1;
         }
-   
-        grandTotalCommission += baseCommission;
+
+        baseCommission = records[i].actual * 0.10;
+
+        if (records[i].actual >= records[i].target * 1.20) {
+            baseCommission = baseCommission + 200.0;
+        } else if (records[i].actual >= records[i].target) {
+            baseCommission = baseCommission + 50.0;
+        } else if (records[i].actual < records[i].target * 0.90) {
+            baseCommission = baseCommission - 100.0;
+        }
+
+        grandTotalCommission = grandTotalCommission + baseCommission;
     }
 
     printf("Grand Total Commission: %.2f\n", grandTotalCommission);
 
     return 0;
 }
-
