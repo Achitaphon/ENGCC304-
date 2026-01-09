@@ -11,10 +11,12 @@ struct studentNode {
 };
 
 void SaveNode(struct studentNode *child, char n[], int a, char s, float g);
-void GoNext1(struct studentNode **walk);
+void GoNext2(struct studentNode ***walk);
 
 int main(void) {
-    struct studentNode *start, *now1, **now2;
+    struct studentNode *start;
+    struct studentNode *now1;
+    struct studentNode **now2;
 
     start = (struct studentNode *)malloc(sizeof(struct studentNode));
     SaveNode(start, "one", 6, 'M', 3.11f);
@@ -31,10 +33,10 @@ int main(void) {
     start->next->next->next->next = NULL;
 
     now1 = start;
-    now2 = &start;   /* ไม่ได้ใช้ต่อ แต่คงตัวแปรไว้ตาม pre-code */
+    now2 = &start;
 
-    GoNext1(&now1);
-    printf("%s ", now1->name);
+    GoNext2(&now2);
+    printf("%s ", (*now2)->name);
 
     return 0;
 }
@@ -47,8 +49,8 @@ void SaveNode(struct studentNode *child, char n[], int a, char s, float g) {
     child->next = NULL;
 }
 
-void GoNext1(struct studentNode **walk) {
-    if (*walk != NULL && (*walk)->next != NULL) {
-        *walk = (*walk)->next;
+void GoNext2(struct studentNode ***walk) {
+    if (**walk != NULL && (**walk)->next != NULL) {
+        *walk = &((**walk)->next);
     }
 }
