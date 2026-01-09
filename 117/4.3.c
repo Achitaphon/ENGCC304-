@@ -11,7 +11,7 @@ struct studentNode {
 };
 
 void SaveNode(struct studentNode *child, char n[], int a, char s, float g);
-void GoNext1(struct studentNode **walk);
+void GoNext2(struct studentNode ***walk);
 
 int main(void) {
     struct studentNode *start, *now1, **now2;
@@ -33,8 +33,9 @@ int main(void) {
     now1 = start;
     now2 = &start;
 
-    GoNext1(now2);          /* หรือ GoNext1(&now1); ตามการบ้านต้องการ */
-    printf("%s\n", now1->name);
+    GoNext2(&now2);
+
+    printf("%s", (*now2)->name);
 
     return 0;
 }
@@ -47,8 +48,8 @@ void SaveNode(struct studentNode *child, char n[], int a, char s, float g) {
     child->next = NULL;
 }
 
-void GoNext1(struct studentNode **walk) {
-    if (*walk != NULL && (*walk)->next != NULL) {
-        *walk = (*walk)->next;
+void GoNext2(struct studentNode ***walk) {
+    if (*walk != NULL && **walk != NULL && (**walk)->next != NULL) {
+        *walk = &((**walk)->next);
     }
 }
