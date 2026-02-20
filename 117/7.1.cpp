@@ -1,133 +1,125 @@
-#include <iostream>
-#include <cstring>
-using namespace std;
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-struct studentNode {
+typedef struct studentNode {
     char name[20];
     int age;
     char sex;
     float gpa;
-    studentNode *next;
-};
+    struct studentNode *next;
+} studentNode;
 
-class LinkedList {
-protected:
+typedef struct {
     studentNode *start;
     studentNode *now;
-
-public:
-    LinkedList() {
-        start = NULL;
-        now = NULL;
-    }
-
-    ~LinkedList() {
-        studentNode *temp;
-        while (start != NULL) {
-            temp = start;
-            start = start->next;
-            delete temp;
-        }
-    }
-
-    void InsNode(char n[], int a, char s, float g) {
-        studentNode *newNode = new studentNode;
-        strcpy(newNode->name, n);
-        newNode->age = a;
-        newNode->sex = s;
-        newNode->gpa = g;
-        newNode->next = NULL;
-
-        if (start == NULL) {
-            start = newNode;
-            now = newNode;
-        } else {
-            studentNode *walk = start;
-            while (walk->next != NULL)
-                walk = walk->next;
-            walk->next = newNode;
-        }
-    }
-
-    void DelNode() {
-        if (start == NULL || now == NULL) return;
-
-        if (now == start) {
-            start = start->next;
-            delete now;
-            now = start;
-            return;
-        }
-
-        studentNode *prev = start;
-        while (prev->next != now)
-            prev = prev->next;
-
-        prev->next = now->next;
-        delete now;
-        now = prev->next;
-    }
-
-    void GoNext() {
-        if (now != NULL && now->next != NULL)
-            now = now->next;
-    }
-
-    virtual void ShowNode() {
-        if (now != NULL)
-            cout << "[LinkedList] "
-                 << now->name << " "
-                 << now->age << " "
-                 << now->sex << " "
-                 << now->gpa << endl;
-    }
-};
-
-class NewList : public LinkedList {
-public:
-    void GoFirst() {
-        now = start;
-    }
-
-    virtual void ShowNode() {
-        if (now != NULL)
-            cout << "[NewList] "
-                 << now->name << " ("
-                 << now->age << ") "
-                 << now->gpa << endl;
-    }
-};
+} LinkedList;
 
 int main() {
-
-    LinkedList listA;
-    NewList listB;
+    LinkedList listA, listB;
     LinkedList *listC;
 
-    // ----- listA -----
-    listA.InsNode("one", 1, 'A', 1.1);
-    listA.InsNode("two", 2, 'B', 2.2);
-    listA.InsNode("three", 3, 'C', 3.3);
+    listA.start = NULL; listA.now = NULL;
+    listB.start = NULL; listB.now = NULL;
 
-    listA.GoNext();
-    listA.ShowNode();
+    {
+        studentNode *newNode = (studentNode *)malloc(sizeof(studentNode));
+        strcpy(newNode->name, "one"); newNode->age = 1; newNode->sex = 'A'; newNode->gpa = 1.1f; newNode->next = NULL;
+        listA.start = newNode; listA.now = newNode;
+    }
+    {
+        studentNode *walk = listA.start;
+        studentNode *newNode = (studentNode *)malloc(sizeof(studentNode));
+        strcpy(newNode->name, "two"); newNode->age = 2; newNode->sex = 'B'; newNode->gpa = 2.2f; newNode->next = NULL;
+        while (walk->next != NULL) walk = walk->next;
+        walk->next = newNode;
+    }
+    {
+        studentNode *walk = listA.start;
+        studentNode *newNode = (studentNode *)malloc(sizeof(studentNode));
+        strcpy(newNode->name, "three"); newNode->age = 3; newNode->sex = 'C'; newNode->gpa = 3.3f; newNode->next = NULL;
+        while (walk->next != NULL) walk = walk->next;
+        walk->next = newNode;
+    }
 
-    // ----- listB -----
-    listB.InsNode("four", 4, 'D', 4.4);
-    listB.InsNode("five", 5, 'E', 5.5);
-    listB.InsNode("six", 6, 'F', 6.6);
+    if (listA.now != NULL && listA.now->next != NULL) listA.now = listA.now->next;
+    if (listA.now != NULL) {
+        printf("[LinkedList] %s %d %c %.1f\n",
+               listA.now->name, listA.now->age, listA.now->sex, listA.now->gpa);
+    }
 
-    listB.GoNext();
-    listB.DelNode();
-    listB.ShowNode();
+    {
+        studentNode *newNode = (studentNode *)malloc(sizeof(studentNode));
+        strcpy(newNode->name, "four"); newNode->age = 4; newNode->sex = 'D'; newNode->gpa = 4.4f; newNode->next = NULL;
+        listB.start = newNode; listB.now = newNode;
+    }
+    {
+        studentNode *walk = listB.start;
+        studentNode *newNode = (studentNode *)malloc(sizeof(studentNode));
+        strcpy(newNode->name, "five"); newNode->age = 5; newNode->sex = 'E'; newNode->gpa = 5.5f; newNode->next = NULL;
+        while (walk->next != NULL) walk = walk->next;
+        walk->next = newNode;
+    }
+    {
+        studentNode *walk = listB.start;
+        studentNode *newNode = (studentNode *)malloc(sizeof(studentNode));
+        strcpy(newNode->name, "six"); newNode->age = 6; newNode->sex = 'F'; newNode->gpa = 6.6f; newNode->next = NULL;
+        while (walk->next != NULL) walk = walk->next;
+        walk->next = newNode;
+    }
 
-    // ----- Polymorphism -----
+    if (listB.now != NULL && listB.now->next != NULL) listB.now = listB.now->next;
+
+    if (!(listB.start == NULL || listB.now == NULL)) {
+        if (listB.now == listB.start) {
+            listB.start = listB.start->next;
+            free(listB.now);
+            listB.now = listB.start;
+        } else {
+            studentNode *prev = listB.start;
+            while (prev->next != listB.now) prev = prev->next;
+            prev->next = listB.now->next;
+            free(listB.now);
+            listB.now = prev->next;
+        }
+    }
+
+    if (listB.now != NULL) {
+        printf("[NewList] %s (%d) %.1f\n",
+               listB.now->name, listB.now->age, listB.now->gpa);
+    }
+
     listC = &listA;
-    listC->GoNext();
-    listC->ShowNode();
+    if (listC->now != NULL && listC->now->next != NULL) listC->now = listC->now->next;
+    if (listC->now != NULL) {
+        printf("[LinkedList] %s %d %c %.1f\n",
+               listC->now->name, listC->now->age, listC->now->sex, listC->now->gpa);
+    }
 
     listC = &listB;
-    listC->ShowNode();
+    if (listC->now != NULL) {
+        printf("[LinkedList] %s %d %c %.1f\n",
+               listC->now->name, listC->now->age, listC->now->sex, listC->now->gpa);
+    }
+
+    {
+        studentNode *temp;
+        while (listA.start != NULL) {
+            temp = listA.start;
+            listA.start = listA.start->next;
+            free(temp);
+        }
+        listA.now = NULL;
+    }
+    {
+        studentNode *temp;
+        while (listB.start != NULL) {
+            temp = listB.start;
+            listB.start = listB.start->next;
+            free(temp);
+        }
+        listB.now = NULL;
+    }
 
     return 0;
 }
