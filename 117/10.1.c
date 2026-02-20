@@ -4,61 +4,64 @@ long SumLoop(int n);
 long SumRecur(int n);
 
 int main() {
-    int testValueSmall;
-    int testValueLarge;
+    int smallN;
+    int bigN;
 
-    testValueSmall = 10;
-    testValueLarge = 1000000;
+    smallN = 10;
+    bigN = 1000000;
 
-    printf("SumLoop(%d) = %ld\n", testValueSmall, SumLoop(testValueSmall));
-    printf("SumRecur(%d) = %ld\n", testValueSmall, SumRecur(testValueSmall));
+    printf("SumLoop(n) = %ld\n", SumLoop(smallN));
+    printf("SumRecur(n) = %ld\n", SumRecur(smallN));
 
-    /* ทดลองค่าใหญ่: ตั้งใจทำให้เกิด run-time error แบบควบคุมได้ */
-    printf("Trying SumRecur(%d) to trigger run-time error...\n", testValueLarge);
-    printf("SumRecur(%d) = %ld\n", testValueLarge, SumRecur(testValueLarge));
+    printf("Trying to trigger run-time error with n = %d\n", bigN);
+    printf("SumRecur(n) = %ld\n", SumRecur(bigN));
 
     return 0;
 }
 
 long SumLoop(int n) {
-    long sumResult;
-    int current;
+    long sumValue;
+    int currentValue;
 
-    sumResult = 0;
-    current = 1;
+    sumValue = 0;
+    currentValue = 1;
 
-    while (current <= n) {
-        sumResult += current;
-        current++;
+    while (currentValue <= n) {
+        sumValue = sumValue + currentValue;
+        currentValue = currentValue + 1;
     }
 
-    return sumResult;
+    return sumValue;
 }
 
 long SumRecur(int n) {
-    /* ป้องกัน/ควบคุมไม่ให้ recursion ลึกจนเครื่องค้างแบบไม่แน่นอน */
-    static int recursionDepth = 0;
-    const int depthLimit = 50000;
+    static int currentDepth = 0;
+    const int maxDepth = 50000;
 
-    recursionDepth++;
+    currentDepth = currentDepth + 1;
 
-    if (recursionDepth > depthLimit) {
-        /* ทำให้เกิด run-time error แบบชัดเจน (หารด้วยศูนย์) */
-        int zero = 0;
-        int crash = 1 / zero;
-        recursionDepth--;
-        return crash;
+    if (currentDepth > maxDepth) {
+        int zeroValue;
+        int crashValue;
+
+        zeroValue = 0;
+        crashValue = 1 / zeroValue;
+
+        currentDepth = currentDepth - 1;
+        return crashValue;
     }
 
     if (n <= 1) {
-        recursionDepth--;
+        currentDepth = currentDepth - 1;
         return 1;
     }
 
     {
-        long result;
-        result = n + SumRecur(n - 1);
-        recursionDepth--;
-        return result;
+        long resultValue;
+
+        resultValue = n + SumRecur(n - 1);
+
+        currentDepth = currentDepth - 1;
+        return resultValue;
     }
 }
