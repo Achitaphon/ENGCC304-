@@ -3,30 +3,35 @@
 void TowerHanoi(int m, int i, int j);
 
 int main() {
-
     TowerHanoi(3, 1, 3);
-
     return 0;
 }
 
 void TowerHanoi(int m, int i, int j) {
+    const int PEG_A = 1;
+    const int PEG_B = 2;
+    const int PEG_C = 3;
+    const int PEG_SUM = PEG_A + PEG_B + PEG_C;
 
-    int k;
+    int diskCount;
+    int fromPeg;
+    int toPeg;
+    int helperPeg;
 
-    if (m == 1) {
-        printf("Disc 1 from %d to %d\n", i, j);
+    diskCount = m;
+    fromPeg = i;
+    toPeg = j;
+
+    if (diskCount == 1) {
+        printf("Disc 1 from %d to %d\n", fromPeg, toPeg);
         return;
     }
 
-    /* เสาอีกต้น = 6 - i - j  (เพราะ 1 + 2 + 3 = 6) */
-    k = 6 - i - j;
+    helperPeg = PEG_SUM - fromPeg - toPeg;
 
-    /* ย้าย m-1 แผ่น ไปยังเสาช่วย */
-    TowerHanoi(m - 1, i, k);
+    TowerHanoi(diskCount - 1, fromPeg, helperPeg);
 
-    /* ย้ายแผ่นที่ m */
-    printf("Disc %d from %d to %d\n", m, i, j);
+    printf("Disc %d from %d to %d\n", diskCount, fromPeg, toPeg);
 
-    /* ย้าย m-1 จากเสาช่วย ไปยังปลายทาง */
-    TowerHanoi(m - 1, k, j);
+    TowerHanoi(diskCount - 1, helperPeg, toPeg);
 }
